@@ -1,0 +1,7 @@
+Flask
+Flask-CORS
+pandas
+numpy
+sqlite3
+statsmodels
+matplotlib

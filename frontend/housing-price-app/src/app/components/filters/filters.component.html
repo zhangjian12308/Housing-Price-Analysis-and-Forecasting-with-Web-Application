@@ -1,0 +1,15 @@
+<div class="filter-container">
+  <label>Select State:</label>
+  <input type="text" [(ngModel)]="selectedState">
+
+  <label>Select Region:</label>
+  <input type="text" [(ngModel)]="selectedRegions">
+
+  <label>Select Date:</label>
+  <input type="date" [(ngModel)]="selectedDate">
+
+  <label>Show Forecast:</label>
+  <input type="checkbox" [(ngModel)]="showForecast">
+
+  <button (click)="applyFilters()">Search</button>
+</div>
