@@ -7,10 +7,20 @@ from statsmodels.tsa.holtwinters import ExponentialSmoothing
 file_path = "Data.csv"
 data = pd.read_csv(file_path)
 
-# 计算平均价格
+# 处理日期列
 date_columns = data.columns[2:]
-price_data = data[date_columns].mean(numeric_only=True)
+sorted_columns = sorted(date_columns, key=lambda x: pd.to_datetime(x, format='%m/%d/%Y'))
+data_sorted = data[sorted_columns]
+
+# 处理缺失值：按行前向+后向填充
+data_filled = data_sorted.fillna(method='ffill', axis=1).fillna(method='bfill', axis=1)
+
+# 计算平均价格
+price_data = data_filled.mean()
 price_data.index = pd.to_datetime(price_data.index, format='%m/%d/%Y')
+
+# 确保时间序列没有缺失值
+price_data = price_data.interpolate(method='time').ffill().bfill()
 
 # 使用 Holt-Winters 进行时间序列预测
 model = ExponentialSmoothing(price_data, trend="add", seasonal="add", seasonal_periods=3)
